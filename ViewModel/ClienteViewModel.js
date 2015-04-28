@@ -2,10 +2,17 @@
  * ViewModel - Cliente
  **/
 var ClienteViewModel = kendo.observable({
-	/**
-	 * Propriedade - curso
-	 **/
-	//cliente : new ClienteModel(),
+
+	id: "",
+	nome: "",
+	endereco: "",
+	bairro: "",
+	cep: "",
+	cidade: "",
+	uf: "",
+	telefone: "",
+	email: "",
+
 	/**
 	 * Método - actionSalvar
 	 */
@@ -35,9 +42,7 @@ var ClienteViewModel = kendo.observable({
 					email: email,
 				},
 				success : function(xml){
-					// procura o 'item' e dispara uma função para cada um
 					$(xml).find('Cliente').each(function(){
-						//pega o titulo e ponha na variável
 						var insert = $(this).find('insert').text();
 						if (insert == "true") {
 							alert('Cliente inserido');
@@ -51,25 +56,24 @@ var ClienteViewModel = kendo.observable({
 	},
 	
 	actionConsultar: function(e) {
-	
 		var id = $(e.target).data('parameter');
-		console.log(id);
-			cliente : new ClienteModel();
-			console.log(cliente);
+		//var cliente = new ClienteModel();
+		var self = this;
 		$.ajax({
 			url : "http://www.riasoftware.com.br/aplicacoes/php/crud/cliente/service/ClienteService.php?operacao=select",
 			success : function(xml){
 				$(xml).find('Cliente').each(function(){
 					if ($(this).find('id').text() == id) {
-						cliente.id = $(this).find('id').text();
-						cliente.nome = $(this).find('nome').text();
-						cliente.endereco = $(this).find('endereco').text();
-						cliente.bairro = $(this).find('bairro').text();
-						cliente.cep = $(this).find('cep').text();
-						cliente.cidade = $(this).find('cidade').text();
-						cliente.uf = $(this).find('estado').text();
-						cliente.telefone = $(this).find('telefone').text();
-						cliente.email = $(this).find('email').text();
+						self.id = $(this).find('id').text();
+						self.nome = $(this).find('nome').text();
+						self.endereco = $(this).find('endereco').text();
+						self.bairro = $(this).find('bairro').text();
+						self.cep = $(this).find('cep').text();
+						self.cidade = $(this).find('cidade').text();
+						self.uf = $(this).find('estado').text();
+						self.telefone = $(this).find('telefone').text();
+						self.email = $(this).find('email').text();
+						kendo.bind($("#form"), ClienteViewModel);
 					}
 				});
 			}
