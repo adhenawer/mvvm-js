@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Cadastro de clientes</title>
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script src="http://cdn.kendostatic.com/2013.1.319/js/kendo.all.min.js"></script>
+		<script src="Model/ClienteModel.js"></script>
+		<script src="ViewModel/ClienteViewModel.js"></script>
+		<script src="webroot/js/jquery-2.1.3.min.js"></script>
+		<script src="Main.js"></script>
+	</head>
+	<body data-bind='actionListar'>
+		<div id="form">
+			<input placeholder="Id" data-bind="value: cliente.id" style="display: none" />
+			<input placeholder="Nome" data-bind="value: cliente.nome" style="width:200px" />
+			<input placeholder="Endereço" data-bind="value: cliente.endereco" style="width:200px" />
+			<input placeholder="Bairro" data-bind="value: cliente.bairro" style="width:200px" />
+			<input placeholder="CEP" data-bind="value: cliente.cep" style="width:200px" />
+			<input placeholder="Cidade" data-bind="value: cliente.cidade" style="width:200px" />
+			<input placeholder="UF" data-bind="value: cliente.uf" style="width:200px" />
+			<input placeholder="Email" data-bind="value: cliente.telefone" style="width:200px" />
+			<input placeholder="Email" data-bind="value: cliente.email" style="width:200px" />
+			<button data-bind="click: actionSalvar">Salvar</button>
+			
+			<h2>Clientes</h2>
+			<table border=1 id="view">
+			</table>
+		
+		</div>
+		
+
+	</body>
+</html>
