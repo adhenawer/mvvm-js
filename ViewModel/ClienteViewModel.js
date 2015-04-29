@@ -51,11 +51,15 @@ var ClienteViewModel = kendo.observable({
 		});
 	},
 	
-	actionDeletar: function(id) {
-		console.log('deletar');
+	actionDeletar: function() {
+		var id = this.get("id");
 		$.ajax({
 			url : this.url_web_service + 'delete',
-			data : "id=" + cliente.id,
+			method: "POST",
+			dataType : "xml",
+			data : {
+				id: id
+			},
 			beforeSend : function(){
 				console.log('Enviando');
 			},
