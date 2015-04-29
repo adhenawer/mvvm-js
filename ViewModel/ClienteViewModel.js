@@ -3,6 +3,8 @@
  **/
 var ClienteViewModel = kendo.observable({
 
+	url_web_service: "http://www.riasoftware.com.br/aplicacoes/php/crud/cliente/service/ClienteService.php?operacao=",
+
 	id: "",
 	nome: "",
 	endereco: "",
@@ -14,53 +16,22 @@ var ClienteViewModel = kendo.observable({
 	email: "",
 
 	/**
-	 * Método - actionSalvar
+	 * Método - actionNovo
 	 */
-	actionSalvar: function() {
-		var nome = this.get("cliente.nome");
-		var endereco = this.get("cliente.endereco");
-		var bairro = this.get("cliente.bairro");
-		var cep = this.get("cliente.cep");
-		var cidade = this.get("cliente.cidade");
-		var uf = this.get("cliente.uf");
-		var telefone = this.get("cliente.telefone");
-		var email = this.get("cliente.email");
-		
-		$(document).ready(function($){
-			$.ajax({
-				url : "http://www.riasoftware.com.br/aplicacoes/php/crud/cliente/service/ClienteService.php?operacao=insert",
-				method: "POST",
-				dataType : "xml",
-				data: { 
-					nome: nome,
-					endereco: endereco,
-					bairro: bairro,
-					cep: cep,
-					cidade: cidade,
-					estado: uf,
-					telefone: telefone,
-					email: email,
-				},
-				success : function(xml){
-					$(xml).find('Cliente').each(function(){
-						var insert = $(this).find('insert').text();
-						if (insert == "true") {
-							alert('Cliente inserido');
-						} else {
-							alert('Problema tente novamente.');
-						}
-					});
-				}
-			});
-		});
+	actionNovo: function() {
+		this.actionPostWS('insert');
 	},
-	
+
+	actionAtualizar: function() {
+		this.actionPostWS('update');
+	},
+
 	actionConsultar: function(e) {
 		var id = $(e.target).data('parameter');
 		//var cliente = new ClienteModel();
 		var self = this;
 		$.ajax({
-			url : "http://www.riasoftware.com.br/aplicacoes/php/crud/cliente/service/ClienteService.php?operacao=select",
+			url : this.url_web_service + 'select',
 			success : function(xml){
 				$(xml).find('Cliente').each(function(){
 					if ($(this).find('id').text() == id) {
@@ -81,14 +52,52 @@ var ClienteViewModel = kendo.observable({
 	},
 	
 	actionDeletar: function(id) {
+		console.log('deletar');
 		$.ajax({
-			url : "http://www.riasoftware.com.br/aplicacoes/php/crud/cliente/service/ClienteService.php?operacao=delete",
+			url : this.url_web_service + 'delete',
 			data : "id=" + cliente.id,
 			beforeSend : function(){
 				console.log('Enviando');
 			},
 			success : function(xml){
 				console.log(xml);
+			}
+		});
+	},
+
+	actionPostWS: function (metodo) {
+		if (metodo == 'insert') {
+			var id = null;
+		} else {
+			var id = this.get("id");
+		};
+
+		var nome = this.get("nome");
+		var endereco = this.get("endereco");
+		var bairro = this.get("bairro");
+		var cep = this.get("cep");
+		var cidade = this.get("cidade");
+		var uf = this.get("uf");
+		var telefone = this.get("telefone");
+		var email = this.get("email");
+
+		$.ajax({
+			url : this.url_web_service + metodo,
+			method: "POST",
+			dataType : "xml",
+			data: { 
+				id: id,
+				nome: nome,
+				endereco: endereco,
+				bairro: bairro,
+				cep: cep,
+				cidade: cidade,
+				estado: uf,
+				telefone: telefone,
+				email: email,
+			},
+			success : function(xml){
+				alert('Cliente salvo!');
 			}
 		});
 	}
